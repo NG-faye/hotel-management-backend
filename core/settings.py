@@ -4,26 +4,20 @@ from datetime import timedelta
 import dj_database_url
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement du fichier .env
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-@jkk2_dh^n2__9@ts%rx^%bak=(j28is#f+&$gqnuubtvo%z)o')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-change-it')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG sera False en production (sur Render) et True en local
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*'] # À restreindre plus tard avec ton URL Render
-
+# Autorise ton URL Render et localhost
+ALLOWED_HOSTS = ['hotel-management-backend-ommj.onrender.com', 'localhost', '127.0.0.1', '*']
 
 # Application definition
-
 INSTALLED_APPS = [
-    'cloudinary_storage', # Doit être AVANT staticfiles
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,30 +25,28 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary',
-    
-    # Bibliothèques tierces
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
-    
-    # Tes applications
     'hotels',
     'api',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # EN PREMIER pour éviter les erreurs de connexion
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Pour gérer les fichiers statiques sur Render
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.CommonMiddleware', # DOIT ÊTRE APRÈS CORS
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True # Autorise ton frontend Vercel
+# Autorisation totale pour ton frontend Vercel
+CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'core.urls'
 
@@ -75,9 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Database
-# Utilise la DATABASE_URL de Render en prod, ou ta DB locale en dev
+# Database : Utilise Render en priorité, sinon ta base locale
 DATABASES = {
     'default': dj_database_url.config(
         default='postgresql://postgres:mamiwata2000@127.0.0.1:5432/red-product-db',
@@ -85,8 +75,6 @@ DATABASES = {
     )
 }
 
-
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -94,15 +82,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr' # Mis en français
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -116,7 +100,6 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# REST Framework & JWT
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -126,6 +109,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
