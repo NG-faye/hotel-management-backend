@@ -4,30 +4,34 @@ from datetime import timedelta
 import dj_database_url
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement du fichier .env
+# Charger les variables d'environnement
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-@jkk2_dh^n2__9@ts%rx^%bak=(j28is#f+&$gqnuubtvo%z)o')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['*']
 
-# Application definition
+# --- CONFIGURATION CLOUDINARY (Doit être définie AVANT INSTALLED_APPS) ---
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    'SECURE': True
+}
+
 INSTALLED_APPS = [
-    'cloudinary_storage', # En premier
+    'cloudinary_storage',  # TOUJOURS EN PREMIER
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary',
+    'cloudinary',          # APRES staticfiles
     
     'rest_framework',
     'corsheaders',
@@ -37,10 +41,14 @@ INSTALLED_APPS = [
     'api',
 ]
 
+# --- FORCE LE STOCKAGE CLOUDINARY ---
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,19 +100,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# --- CONFIGURATION CLOUDINARY (FORCEE) ---
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
-
-# Ces lignes DOIVENT être ici pour que l'URL soit correcte
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_URL = '/media/'
-CLOUDINARY_STORAGE['SECURE'] = True
-# -----------------------------------------
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
