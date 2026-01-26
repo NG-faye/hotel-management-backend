@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User # Import indispensable
+from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField # On importe le champ spécial Cloudinary
 
 class Hotel(models.Model):
     # Ajout du lien entre l'hôtel et l'utilisateur (Admin)
@@ -8,7 +9,10 @@ class Hotel(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='hotels/', null=True, blank=True)
+    
+    # REMPLACE models.ImageField par CloudinaryField
+    image = CloudinaryField('image', null=True, blank=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
