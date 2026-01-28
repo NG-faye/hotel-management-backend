@@ -11,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-@jkk2_dh^n2__9@ts%rx^%bak=(j28is#f+&$gqnuubtvo%z)o')
 
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+# DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,7 +83,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:mamiwata2000@127.0.0.1:5432/red-product-db',
         conn_max_age=600
     )
 }
