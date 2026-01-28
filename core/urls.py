@@ -26,7 +26,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-# CES DEUX LIGNES SONT CELLES QUI MANQUENT :
+# Tes imports JWT existants
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -36,7 +36,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     
-    # Routes pour l'authentification (Login)
+    # --- ROUTES DJOSER (Mot de passe oublié, Inscription, Profil) ---
+    # Ces routes gèrent /auth/users/reset_password/ etc.
+    path('auth/', include('djoser.urls')),
+    # Ces routes permettent à Djoser d'utiliser JWT pour le login via /auth/jwt/create/
+    path('auth/', include('djoser.urls.jwt')),
+
+    # --- TES ROUTES ACTUELLES (Login) ---
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
