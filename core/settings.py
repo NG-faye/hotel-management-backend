@@ -122,10 +122,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/confirm/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'user_create': 'djoser.serializers.UserCreateSerializer',
+        # 'hotels' doit être le nom du dossier où se trouve ton serializers.py
+        'user_create': 'hotels.serializers.CustomUserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer',
         'current_user': 'djoser.serializers.UserSerializer',
     },
