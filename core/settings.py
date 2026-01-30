@@ -64,6 +64,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'core.urls'
 
+CORS_ALLOWED_ORIGINS = [
+    "https://hotel-management-front-psi.vercel.app", # Remplace par ton vrai lien Vercel
+    "http://localhost:3000",
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
