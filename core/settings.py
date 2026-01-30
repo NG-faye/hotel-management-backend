@@ -150,5 +150,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton adresse Gmail
-EMAIL_HOST_PASSWORD = 'pggy kraz lnnj qmsh' # Un code spécial de 16 
+EMAIL_HOST_PASSWORD = 'pggykrazlnnjqmsh' # Un code spécial de 16 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
