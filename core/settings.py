@@ -122,13 +122,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': False,
+    'SEND_ACTIVATION_EMAIL': True,          # Envoie le mail d'activation
+    'SEND_CONFIRMATION_EMAIL': True,        # Envoie un mail de succès après activation
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
-        # 'hotels' doit être le nom du dossier où se trouve ton serializers.py
-        'user_create': 'api.serializers.UserSerializer',
-        'user': 'djoser.serializers.UserSerializer',
-        'current_user': 'djoser.serializers.UserSerializer',
+        'user_create': 'api.serializers.UserSerializer', # Ton chemin actuel
+        'user': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.UserSerializer',
     },
 }
 
+DOMAIN = 'hotel-management-front-psi.vercel.app'  # Ton lien Vercel sans "https://"
+SITE_NAME = 'Hôtel Django'
+
 # --- CONFIGURATION EMAIL POUR LE TERMINAL ---
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Configuration pour l'envoi d'emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton adresse Gmail
+EMAIL_HOST_PASSWORD = 'pggy kraz lnnj qmsh' # Un code spécial de 16 
+DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
