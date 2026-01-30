@@ -34,23 +34,21 @@
 from rest_framework import serializers
 from .models import Hotel
 from django.contrib.auth.models import User
-from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerializer
+from djoser.serializers import UserCreateSerializer
 
-# 1. Serializer pour les Hôtels (Inchangé)
+# 1. On garde ton nom
 class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
         fields = '__all__'
 
-# 2. Le VRAI Serializer pour l'Inscription (Correction Djoser)
-class CustomUserCreateSerializer(DjoserUserCreateSerializer):
-    class Meta(DjoserUserCreateSerializer.Meta):
+# 2. On garde ton nom 'UserSerializer' pour que 'views.py' le trouve
+class UserSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
         model = User
-        # On définit les champs que ton Frontend envoie
         fields = ('id', 'email', 'password', 'first_name')
 
     def validate(self, attrs):
-        # Cette ligne est la clé : elle crée le 'username' à partir de l'email
-        # juste avant que Django ne valide les données.
+        # On force le username à être l'email pour éviter l'erreur
         attrs['username'] = attrs.get('email')
         return super().validate(attrs)

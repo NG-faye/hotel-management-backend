@@ -124,7 +124,7 @@ DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': False,
     'SERIALIZERS': {
         # 'hotels' doit être le nom du dossier où se trouve ton serializers.py
-        'user_create': 'hotels.serializers.CustomUserCreateSerializer',
+        'user_create': 'api.serializers.UserSerializer',
         'user': 'djoser.serializers.UserSerializer',
         'current_user': 'djoser.serializers.UserSerializer',
     },
