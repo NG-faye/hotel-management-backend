@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Hotel
 from django.contrib.auth.models import User
+from .models import Hotel
 from djoser.serializers import UserCreateSerializer
 
 class HotelSerializer(serializers.ModelSerializer):
@@ -11,24 +11,21 @@ class HotelSerializer(serializers.ModelSerializer):
 class UserSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
+        # On inclut explicitement username ici pour que Django soit content
         fields = ('id', 'username', 'email', 'password', 'first_name')
         extra_kwargs = {
-            'username': {'required': False, 'allow_blank': True},
+            'username': {'required': False},
+            'email': {'required': True},
         }
 
-    def create(self, validated_data):
-        # On extrait les données manuellement
-        email = validated_data.get('email')
-        password = validated_data.get('password')
-        first_name = validated_data.get('first_name', '')
+    def validate(self, attrs):
+        # On force le username à prendre la valeur de l'email AVANT la validation
+        if 'email' in attrs:
+            attrs['username'] = attrs['email']
+        return super().validate(attrs)
 
-        # ON FORCE LA CRÉATION MANUELLE SANS PASSER PAR LE MANAGER CLASSIQUE
-        user = User.objects.create(
-            username=email, # Le username EST l'email
-            email=email,
-            first_name=first_name,
-            is_active=False # Important pour l'activation par mail
-        )
-        user.set_password(password) # On crypte le mot de passe
-        user.save()
-        return user
+    def create(self, validated_data):
+        # On s'assure une dernière fois que le username est là
+        if 'username' not in validated_data:
+            validated_data['username'] = validated_data.get('email')
+        return super().create(validated_data)
