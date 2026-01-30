@@ -11,12 +11,13 @@ class HotelSerializer(serializers.ModelSerializer):
 class UserSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        # On inclut 'username' dans les champs pour que Django ne râle pas
-        fields = ('id', 'username', 'email', 'password', 'first_name')
+        # On demande explicitement ces champs
+        fields = ('id', 'email', 'password', 'first_name')
 
-    def validate(self, attrs):
-        # STRATÉGIE CRUCIALE : 
-        # Si le username n'est pas envoyé ou est vide, on lui donne la valeur de l'email
-        if not attrs.get('username'):
-            attrs['username'] = attrs.get('email')
-        return super().validate(attrs)
+    def create(self, validated_data):
+        # On récupère l'email
+        email = validated_data.get('email')
+        # On force le username à être l'email AVANT la création
+        validated_data['username'] = email
+        # On appelle la méthode de création de Djoser avec le username inclus
+        return super().create(validated_data)
