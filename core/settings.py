@@ -151,7 +151,8 @@ EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com'
-EMAIL_HOST_PASSWORD = 'wbzusgzdbtuqehre' 
+EMAIL_HOST_PASSWORD = 'wbzusgzdbtuqehre'
+EMAIL_FAIL_SILENTLY = False 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
 
 # Augmente le timeout à 60 pour laisser du temps à Gmail

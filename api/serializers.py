@@ -28,11 +28,17 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop('re_password')
         email = validated_data.get('email')
         
-        # CORRECTION : On crée l'utilisateur en mode INACTIF
-        return User.objects.create_user(
+        # On crée l'utilisateur et on le stocke dans la variable 'user'
+        user = User.objects.create_user(
             username=email, 
             email=email,
             password=validated_data.get('password'),
             first_name=validated_data.get('first_name', ''),
-            is_active=False # L'utilisateur ne peut plus se connecter sans le mail
+            is_active=False
         )
+        
+        # --- CES LIGNES DOIVENT ÊTRE INDENTÉES (alignées avec 'user') ---
+        print(f"DEBUG: Utilisateur créé avec l'email: {user.email}")
+        print(f"DEBUG: Statut is_active: {user.is_active}")
+        
+        return user # On ne met le return QU'À LA FIN
