@@ -147,11 +147,14 @@ SITE_NAME = 'Hôtel Django'
 # On supprime la ligne console.EmailBackend !
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com'
-EMAIL_HOST_PASSWORD = 'idopntbanmchgyfq' 
+EMAIL_HOST_PASSWORD = 'wbzusgzdbtuqehre' 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
 
 # Augmente le timeout à 60 pour laisser du temps à Gmail
 EMAIL_TIMEOUT = 60
+
+
