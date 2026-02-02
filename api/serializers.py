@@ -9,7 +9,7 @@ class HotelSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    re_password = serializers.CharField(write_only=True) # Ajouté pour correspondre à ton React
+    re_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
@@ -20,21 +20,19 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        # On vérifie que les deux mots de passe sont identiques
         if attrs.get('password') != attrs.get('re_password'):
             raise serializers.ValidationError({"password": "Les mots de passe ne correspondent pas."})
         return attrs
 
     def create(self, validated_data):
-        # On retire re_password avant la création
         validated_data.pop('re_password')
-        
-        # ON FORCE LE USERNAME ICI : C'est la solution à ton erreur
         email = validated_data.get('email')
         
+        # CORRECTION : On crée l'utilisateur en mode INACTIF
         return User.objects.create_user(
             username=email, 
             email=email,
             password=validated_data.get('password'),
-            first_name=validated_data.get('first_name', '')
+            first_name=validated_data.get('first_name', ''),
+            is_active=False # L'utilisateur ne peut plus se connecter sans le mail
         )
