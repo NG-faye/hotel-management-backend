@@ -141,16 +141,15 @@ DJOSER = {
 DOMAIN = 'hotel-management-front-psi.vercel.app'  # Ton lien Vercel sans "https://"
 SITE_NAME = 'Hôtel Django'
 
-# --- CONFIGURATION EMAIL POUR LE TERMINAL ---
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# Configuration pour l'envoi d'emails
+# --- CONFIGURATION EMAIL FINALE (SMTP REEL) ---
+# On supprime la ligne console.EmailBackend !
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton adresse Gmail
-EMAIL_HOST_PASSWORD = 'idopntbanmchgyfq' # Un code spécial de 16 
+EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com'
+EMAIL_HOST_PASSWORD = 'idopntbanmchgyfq' 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
-# Ajoute cette ligne pour éviter que le site ne freeze si Gmail est lent
-EMAIL_TIMEOUT = 30
+
+# Augmente le timeout à 60 pour laisser du temps à Gmail
+EMAIL_TIMEOUT = 60
