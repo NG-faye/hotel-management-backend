@@ -163,8 +163,8 @@ EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton email de compte Brevo
-EMAIL_HOST_PASSWORD = os.getenv('BREVO_SMTP_KEY')
+EMAIL_HOST_USER = 'a175f4001@smtp-brevo.com'  # Ton nouveau Login
+EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_KEY') # Récupéré depuis Render
 EMAIL_FAIL_SILENTLY = False 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
 
