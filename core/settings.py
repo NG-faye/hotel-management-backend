@@ -164,7 +164,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton email de compte Brevo
-EMAIL_HOST_PASSWORD = 'xsmtpsib-312696cfc95b129aec8228990b02e1727b41b141886fb7c41a4d83bf23005a6b-wlop3eyY4P3XJAIY' # La longue clé générée à l'étape 1
+EMAIL_HOST_PASSWORD = os.getenv('BREVO_SMTP_KEY')
 EMAIL_FAIL_SILENTLY = False 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
 
