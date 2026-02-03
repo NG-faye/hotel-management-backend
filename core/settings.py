@@ -142,19 +142,30 @@ DJOSER = {
 DOMAIN = 'hotel-management-front-psi.vercel.app'  # Ton lien Vercel sans "https://"
 SITE_NAME = 'Hôtel Django'
 
-# --- CONFIGURATION EMAIL FINALE (SMTP REEL) ---
-# On supprime la ligne console.EmailBackend !
+# # --- CONFIGURATION EMAIL FINALE (SMTP REEL) ---
+# # On supprime la ligne console.EmailBackend !
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = True
+# EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com'
+# EMAIL_HOST_PASSWORD = 'wbzusgzdbtuqehre'
+# EMAIL_FAIL_SILENTLY = False 
+# DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
+
+# # Augmente le timeout à 60 pour laisser du temps à Gmail
+# EMAIL_TIMEOUT = 60
+
+# --- CONFIGURATION EMAIL AVEC BREVO ---
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com'
-EMAIL_HOST_PASSWORD = 'wbzusgzdbtuqehre'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'ndeyegnilane00@gmail.com' # Ton email de compte Brevo
+EMAIL_HOST_PASSWORD = 'xsmtpsib-312696cfc95b129aec8228990b02e1727b41b141886fb7c41a4d83bf23005a6b-wlop3eyY4P3XJAIY' # La longue clé générée à l'étape 1
 EMAIL_FAIL_SILENTLY = False 
 DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
-
-# Augmente le timeout à 60 pour laisser du temps à Gmail
-EMAIL_TIMEOUT = 60
 
 

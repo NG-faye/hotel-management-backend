@@ -28,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop('re_password')
         email = validated_data.get('email')
         
-        # On crée l'utilisateur et on le stocke dans la variable 'user'
+        # On crée l'utilisateur inactif
         user = User.objects.create_user(
             username=email, 
             email=email,
@@ -37,8 +37,5 @@ class UserSerializer(serializers.ModelSerializer):
             is_active=False
         )
         
-        # --- CES LIGNES DOIVENT ÊTRE INDENTÉES (alignées avec 'user') ---
-        print(f"DEBUG: Utilisateur créé avec l'email: {user.email}")
-        print(f"DEBUG: Statut is_active: {user.is_active}")
-        
-        return user # On ne met le return QU'À LA FIN
+        # Le return doit être ICI, aligné sous 'user ='
+        return user
