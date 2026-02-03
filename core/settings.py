@@ -123,7 +123,7 @@ SIMPLE_JWT = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- CONFIGURATION DJOSER ---
+# --- CONFIGURATION DJOSER (Version Corrigée) ---
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
@@ -131,8 +131,7 @@ DJOSER = {
     'SEND_CONFIRMATION_EMAIL': True,        
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    # CORRECTION : Obliger l'activation pour pouvoir se connecter
-    'USER_CREATE_ACTIVATION_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True, # Ajoute ceci pour la sécurité
     'SERIALIZERS': {
         'user_create': 'api.serializers.UserSerializer', 
         'user': 'api.serializers.UserSerializer',
