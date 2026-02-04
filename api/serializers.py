@@ -39,3 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
         
         # Le return doit être ICI, aligné sous 'user ='
         return user
+    
+
+
+    
