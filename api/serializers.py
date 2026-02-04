@@ -1,5 +1,3 @@
-# OPTION 2 (RECOMMANDÉE) : Hérite du serializer Djoser
-
 from djoser.serializers import UserCreateSerializer as DjoserUserCreateSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -10,17 +8,30 @@ class HotelSerializer(serializers.ModelSerializer):
         model = Hotel
         fields = '__all__'
 
-# ✅ Hérite du serializer Djoser qui gère déjà l'activation
+# ✅ Version corrigée
 class UserSerializer(DjoserUserCreateSerializer):
+    # On déclare re_password ici, mais pas dans fields
+    re_password = serializers.CharField(write_only=True, required=True)
+    
     class Meta(DjoserUserCreateSerializer.Meta):
         model = User
-        fields = ('id', 'username', 'email', 'password', 're_password', 'first_name')
+        # ⚠️ NE PAS mettre 're_password' ici car ce n'est pas un champ du modèle User
+        fields = ('id', 'username', 'email', 'password', 'first_name')
         extra_kwargs = {
             'username': {'required': False},
             'email': {'required': True},
         }
     
+    def validate(self, attrs):
+        # Validation du re_password
+        if attrs.get('password') != attrs.get('re_password'):
+            raise serializers.ValidationError({"password": "Les mots de passe ne correspondent pas."})
+        return attrs
+    
     def create(self, validated_data):
+        # Enlève re_password avant la création
+        validated_data.pop('re_password', None)
+        
         # Ajoute l'email comme username si pas fourni
         if not validated_data.get('username'):
             validated_data['username'] = validated_data.get('email')
