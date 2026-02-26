@@ -4,10 +4,11 @@ from datetime import timedelta
 import dj_database_url
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement
-load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-@jkk2_dh^n2__9@ts%rx^%bak=(j28is#f+&$gqnuubtvo%z)o')
 
@@ -113,6 +114,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
+    
 }
 
 SIMPLE_JWT = {
@@ -143,15 +145,13 @@ DOMAIN = 'hotel-management-front-psi.vercel.app'  # Ton lien Vercel sans "https:
 SITE_NAME = 'Hôtel Django'
 
 # --- CONFIGURATION EMAIL AVEC BREVO ---
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-relay.brevo.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv('BREVO_SMTP_USER', 'a175f4001@smtp-brevo.com')  # Ton nouveau Login
-EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_KEY') # Récupéré depuis Render
-EMAIL_FAIL_SILENTLY = False 
-DEFAULT_FROM_EMAIL = 'Red Product <ndeyegnilane00@gmail.com>'
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 EMAIL_TIMEOUT = 10
 
